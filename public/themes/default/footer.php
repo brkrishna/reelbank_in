@@ -1,8 +1,8 @@
     <?php if ( ! isset($show) || $show == true) : ?>
     <hr />
     <footer class="footer">
-        <div class="container">
-            <p>Powered by <a href="http://cibonfire.com" target="_blank">Bonfire <?php echo BONFIRE_VERSION; ?></a></p>
+        <div class="row">
+            <p>In case of any issues, please write to <a href="mailto:info@reelbank.in">info@reelbank.in</a>
         </div>
     </footer>
     <?php endif; ?>
