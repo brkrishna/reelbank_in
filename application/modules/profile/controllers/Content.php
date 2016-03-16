@@ -108,7 +108,7 @@ class Content extends Admin_Controller
         }
 
         Template::set('toolbar_title', lang('profile_action_create'));
-
+        Template::set_view('content/edit');
         Template::render();
     }
     /**

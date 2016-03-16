@@ -51,11 +51,11 @@ if ($can_delete) {
 					<?php endif;?>
 					
 				<?php if ($can_edit) : ?>
-					<td><?php echo anchor(SITE_AREA . '/content/company_users/edit/' . $record->id, '<span class="icon-pencil"></span> ' .  $record->profile); ?></td>
+					<td><?php echo anchor(SITE_AREA . '/content/company_users/edit/' . $record->id, '<span class="icon-pencil"></span> ' .  $profile_select[$record->profile]); ?></td>
 				<?php else : ?>
-					<td><?php e($record->profile); ?></td>
+					<td><?php e($profile_select[$record->profile]); ?></td>
 				<?php endif; ?>
-					<td><?php e($record->user); ?></td>
+					<td><?php e($users_select[$record->user]); ?></td>
 					<td><?php echo $record->deleted > 0 ? lang('company_users_true') : lang('company_users_false'); ?></td>
 					<td><?php e($record->created_on); ?></td>
 					<td><?php e($record->modified_on); ?></td>

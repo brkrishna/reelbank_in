@@ -35,7 +35,7 @@ $id = isset($items->id) ? $items->id : '';
             <div class="control-group<?php echo form_error('decal') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('items_field_decal'), 'decal', array('class' => 'control-label')); ?>
                 <div class='controls'>
-                    <input id='decal' type='text' name='decal' maxlength='10' value="<?php echo set_value('decal', isset($items->decal) ? $items->decal : ''); ?>" />
+                    <input id='decal' type='text' placeholder='Please specify in cm (10 to 400)' name='decal' maxlength='10' value="<?php echo set_value('decal', isset($items->decal) ? $items->decal : ''); ?>" />
                     <span class='help-inline'><?php echo form_error('decal'); ?></span>
                 </div>
             </div>
@@ -43,7 +43,7 @@ $id = isset($items->id) ? $items->id : '';
             <div class="control-group<?php echo form_error('weight') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('items_field_weight'), 'weight', array('class' => 'control-label')); ?>
                 <div class='controls'>
-                    <input id='weight' type='text' name='weight' maxlength='255' value="<?php echo set_value('weight', isset($items->weight) ? $items->weight : ''); ?>" />
+                    <input id='weight' type='text' name='weight' placeholder='Please specify kgs' maxlength='255' value="<?php echo set_value('weight', isset($items->weight) ? $items->weight : ''); ?>" />
                     <span class='help-inline'><?php echo form_error('weight'); ?></span>
                 </div>
             </div>
@@ -83,7 +83,7 @@ $id = isset($items->id) ? $items->id : '';
             <div class="control-group<?php echo form_error('remarks') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('items_field_remarks'), 'remarks', array('class' => 'control-label')); ?>
                 <div class='controls'>
-                    <input id='remarks' type='text' name='remarks' maxlength='4000' value="<?php echo set_value('remarks', isset($items->remarks) ? $items->remarks : ''); ?>" />
+                    <textarea id='remarks' type='text' name='remarks' rows='8' cols='80' maxlength='4000'><?php echo set_value('remarks', isset($items->remarks) ? $items->remarks : ''); ?> </textarea>
                     <span class='help-inline'><?php echo form_error('remarks'); ?></span>
                 </div>
             </div>
@@ -91,8 +91,9 @@ $id = isset($items->id) ? $items->id : '';
         <fieldset class='form-actions'>
             <input type='submit' name='save' class='btn btn-primary' value="<?php echo lang('items_action_edit'); ?>" />
             <?php echo lang('bf_or'); ?>
+            <input type='submit' name='savenew' class='btn btn-primary' value="<?php echo lang('items_action_again'); ?>" />
+            <?php echo lang('bf_or'); ?>
             <?php echo anchor(SITE_AREA . '/content/items', lang('items_cancel'), 'class="btn btn-warning"'); ?>
-            
             <?php if ($this->auth->has_permission('Items.Content.Delete')) : ?>
                 <?php echo lang('bf_or'); ?>
                 <button type='submit' name='delete' formnovalidate class='btn btn-danger' id='delete-me' onclick="return confirm('<?php e(js_escape(lang('items_delete_confirm'))); ?>');">

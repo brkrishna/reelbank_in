@@ -50,6 +50,25 @@ class Home extends MX_Controller
         // we're not extending from a Bonfire controller
         // and it's not done for us.
         $this->requested_page = isset($_SESSION['requested_page']) ? $_SESSION['requested_page'] : null;
+
+        $this->load->model('items/items_model');
+        $this->load->model(array('bursting_strength/bursting_strength_model', 'gsm/gsm_model', 'specific_type/specific_type_model', 'condition/condition_model', 'profile/profile_model', 'company_users/company_users_model'));
+        $this->lang->load('items/items');
+        
+        $bursting_strength_select = $this->bursting_strength_model->get_bursting_strength_select();
+        Template::set('bursting_strength_select', $bursting_strength_select);
+
+        $gsm_select = $this->gsm_model->get_gsm_select();
+        Template::set('gsm_select', $gsm_select);
+
+        $specific_type_select = $this->specific_type_model->get_specific_type_select();
+        Template::set('specific_type_select', $specific_type_select);
+
+        $condition_select = $this->condition_model->get_condition_select();
+        Template::set('condition_select', $condition_select);
+
+        $profile_select = $this->profile_model->get_profile_select();
+        Template::set('profile_select', $profile_select);        
 	}
 
 	//--------------------------------------------------------------------
@@ -59,11 +78,30 @@ class Home extends MX_Controller
 	 *
 	 * @return void
 	 */
-	public function index()
+	public function index($offset = 0)
 	{
 		$this->load->library('users/auth');
 		$this->set_current_user();
 
+        $pagerUriSegment = 5;
+        $pagerBaseUrl = site_url(SITE_AREA . '/content/items/index') . '/';
+        
+        $limit  = $this->settings_lib->item('site.list_limit') ?: 15;
+
+        $this->load->library('pagination');
+        $pager['base_url']    = $pagerBaseUrl;
+        $pager['total_rows']  = $this->items_model->count_all();
+        $pager['per_page']    = $limit;
+        $pager['uri_segment'] = $pagerUriSegment;
+
+        $this->pagination->initialize($pager);
+        $this->items_model->limit($limit, $offset);
+        
+        $records = $this->items_model->find_all();
+
+        Template::set('records', $records);
+
+		Template::set_view('items/index');	
 		Template::render();
 	}//end index()
 

@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migration_Install_company_users extends Migration
+class Migration_Install_inquiry extends Migration
 {
 	/**
 	 * @var string The name of the database table
 	 */
-	private $table_name = 'company_users';
+	private $table_name = 'inquiry';
 
 	/**
 	 * @var array The table's fields
@@ -16,11 +16,15 @@ class Migration_Install_company_users extends Migration
 			'constraint' => 11,
 			'auto_increment' => true,
 		),
-        'profile' => array(
+        'item_id' => array(
             'type'       => 'BIGINT',
             'null'       => false,
         ),
-        'user' => array(
+        'comments' => array(
+            'type'       => 'TEXT',
+            'null'       => true,
+        ),
+        'profile_id' => array(
             'type'       => 'BIGINT',
             'null'       => false,
         ),

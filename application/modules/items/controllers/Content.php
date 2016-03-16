@@ -110,12 +110,17 @@ class Content extends Admin_Controller
     {
         $this->auth->restrict($this->permissionCreate);
         
-        if (isset($_POST['save'])) {
+        if (isset($_POST['save']) || isset($_POST['savenew'])) {
             if ($insert_id = $this->save_items()) {
                 log_activity($this->auth->user_id(), lang('items_act_create_record') . ': ' . $insert_id . ' : ' . $this->input->ip_address(), 'items');
                 Template::set_message(lang('items_create_success'), 'success');
 
-                redirect(SITE_AREA . '/content/items');
+                if (isset($_POST['savenew'])){
+                    redirect(SITE_AREA . '/content/items/create');    
+                }else{
+                    redirect(SITE_AREA . '/content/items');    
+                }
+                
             }
 
             // Not validation error
@@ -125,7 +130,7 @@ class Content extends Admin_Controller
         }
 
         Template::set('toolbar_title', lang('items_action_create'));
-
+        Template::set_view('content/edit');    
         Template::render();
     }
     /**

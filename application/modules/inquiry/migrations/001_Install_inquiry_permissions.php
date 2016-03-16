@@ -1,29 +1,29 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migration_Install_company_users_permissions extends Migration
+class Migration_Install_inquiry_permissions extends Migration
 {
 	/**
 	 * @var array Permissions to Migrate
 	 */
 	private $permissionValues = array(
 		array(
-			'name' => 'Company_users.Content.View',
-			'description' => 'View Company_users Content',
+			'name' => 'Inquiry.Content.View',
+			'description' => 'View Inquiry Content',
 			'status' => 'active',
 		),
 		array(
-			'name' => 'Company_users.Content.Create',
-			'description' => 'Create Company_users Content',
+			'name' => 'Inquiry.Content.Create',
+			'description' => 'Create Inquiry Content',
 			'status' => 'active',
 		),
 		array(
-			'name' => 'Company_users.Content.Edit',
-			'description' => 'Edit Company_users Content',
+			'name' => 'Inquiry.Content.Edit',
+			'description' => 'Edit Inquiry Content',
 			'status' => 'active',
 		),
 		array(
-			'name' => 'Company_users.Content.Delete',
-			'description' => 'Delete Company_users Content',
+			'name' => 'Inquiry.Content.Delete',
+			'description' => 'Delete Inquiry Content',
 			'status' => 'active',
 		),
     );

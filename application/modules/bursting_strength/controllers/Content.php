@@ -108,7 +108,7 @@ class Content extends Admin_Controller
         }
 
         Template::set('toolbar_title', lang('bursting_strength_action_create'));
-
+        Template::set_view('content/edit');
         Template::render();
     }
     /**

@@ -21,16 +21,12 @@ $id = isset($company_users->id) ? $company_users->id : '';
         <fieldset>
             
 
-            <?php // Change the values in this array to populate your dropdown as required
-                $options = array(
-                );
-                echo form_dropdown(array('name' => 'profile', 'required' => 'required'), $options, set_value('profile', isset($company_users->profile) ? $company_users->profile : ''), lang('company_users_field_profile') . lang('bf_form_label_required'));
+            <?php 
+                echo form_dropdown(array('name' => 'profile', 'required' => 'required'), $profile_select, set_value('profile', isset($company_users->profile) ? $company_users->profile : ''), lang('company_users_field_profile') . lang('bf_form_label_required'));
             ?>
 
-            <?php // Change the values in this array to populate your dropdown as required
-                $options = array(
-                );
-                echo form_dropdown(array('name' => 'user', 'required' => 'required'), $options, set_value('user', isset($company_users->user) ? $company_users->user : ''), lang('company_users_field_user') . lang('bf_form_label_required'));
+            <?php 
+                echo form_dropdown(array('name' => 'user', 'required' => 'required'), $users_select, set_value('user', isset($company_users->user) ? $company_users->user : ''), lang('company_users_field_user') . lang('bf_form_label_required'));
             ?>
         </fieldset>
         <fieldset class='form-actions'>

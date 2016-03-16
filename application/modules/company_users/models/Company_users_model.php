@@ -68,4 +68,18 @@ class Company_users_model extends BF_Model
     {
         parent::__construct();
     }
+
+	public function get_profile_id($user_id)
+	{
+		$query = $this->db->get_where($this->table_name, array('user'=>$user_id));
+
+		if ($query->num_rows() == 1)
+		{
+		    $row = $query->result();
+			return $row[0]->profile;
+		} else {
+			return null;
+		}
+	}
+
 }

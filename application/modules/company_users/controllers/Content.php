@@ -21,13 +21,21 @@ class Content extends Admin_Controller
         
         $this->auth->restrict($this->permissionView);
         $this->load->model('company_users/company_users_model');
+        $this->load->model(array('profile/profile_model', 'users_model'));
         $this->lang->load('company_users');
         
-            $this->form_validation->set_error_delimiters("<div class='alert alert-danger'>", "</div>");
+        $this->form_validation->set_error_delimiters("<div class='alert alert-danger'>", "</div>");
         
         Template::set_block('sub_nav', 'content/_sub_nav');
 
         Assets::add_module_js('company_users', 'company_users.js');
+
+        $profile_select = $this->profile_model->get_profile_select();
+        Template::set('profile_select', $profile_select);
+
+        $users_select = $this->users_model->get_users_select();
+        Template::set('users_select', $users_select);
+
     }
 
     /**
@@ -108,7 +116,7 @@ class Content extends Admin_Controller
         }
 
         Template::set('toolbar_title', lang('company_users_action_create'));
-
+        Template::set_view('content/edit');            
         Template::render();
     }
     /**

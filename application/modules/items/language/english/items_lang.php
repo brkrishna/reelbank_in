@@ -29,6 +29,7 @@ $lang['items_edit_heading']    = 'Edit Items';
 // Create/Edit Buttons
 $lang['items_action_edit']   = 'Save Items';
 $lang['items_action_create']   = 'Create Items';
+$lang['items_action_again']   = 'Save and Create New';
 
 // Activities
 $lang['items_act_create_record'] = 'Created record with ID';

@@ -1,8 +1,8 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed');
 
-class Items_model extends BF_Model
+class Inquiry_model extends BF_Model
 {
-    protected $table_name	= 'items';
+    protected $table_name	= 'inquiry';
 	protected $key			= 'id';
 	protected $date_format	= 'datetime';
 
@@ -46,59 +46,19 @@ class Items_model extends BF_Model
 	// be updating a portion of the data.
 	protected $validation_rules 		= array(
 		array(
-			'field' => 'profile',
-			'label' => 'lang:items_field_profile',
-			'rules' => 'required|trim|alpha_dash|max_length[255]',
+			'field' => 'item_id',
+			'label' => 'lang:inquiry_field_item_id',
+			'rules' => 'required|trim|is_natural_no_zero',
 		),
 		array(
-			'field' => 'strength',
-			'label' => 'lang:items_field_strength',
-			'rules' => 'required|trim|alpha_dash|max_length[255]',
-		),
-		array(
-			'field' => 'gsm',
-			'label' => 'lang:items_field_gsm',
-			'rules' => 'required|trim|alpha_numeric|max_length[255]',
-		),
-		array(
-			'field' => 'decal',
-			'label' => 'lang:items_field_decal',
-			'rules' => 'trim|is_natural_no_zero|max_length[10]',
-		),
-		array(
-			'field' => 'weight',
-			'label' => 'lang:items_field_weight',
-			'rules' => 'trim|is_natural_no_zero|max_length[255]',
-		),
-		array(
-			'field' => 'type',
-			'label' => 'lang:items_field_type',
-			'rules' => 'trim|alpha_numeric|max_length[255]',
-		),
-		array(
-			'field' => 'mill_name',
-			'label' => 'lang:items_field_mill_name',
-			'rules' => 'trim|max_length[255]',
-		),
-		array(
-			'field' => 'condition',
-			'label' => 'lang:items_field_condition',
-			'rules' => 'trim|alpha_numeric|max_length[255]',
-		),
-		array(
-			'field' => 'qty',
-			'label' => 'lang:items_field_qty',
-			'rules' => 'numeric|max_length[16]',
-		),
-		array(
-			'field' => 'orig_qty',
-			'label' => 'lang:items_field_orig_qty',
-			'rules' => 'numeric|max_length[16]',
-		),
-		array(
-			'field' => 'remarks',
-			'label' => 'lang:items_field_remarks',
+			'field' => 'comments',
+			'label' => 'lang:inquiry_field_comments',
 			'rules' => 'trim|max_length[4000]',
+		),
+		array(
+			'field' => 'profile_id',
+			'label' => 'lang:inquiry_field_profile_id',
+			'rules' => 'required',
 		),
 	);
 	protected $insert_validation_rules  = array();
