@@ -46,6 +46,7 @@ class Home extends MX_Controller
             redirect('install');
         }
 
+
         // Make the requested page var available, since
         // we're not extending from a Bonfire controller
         // and it's not done for us.
@@ -82,6 +83,16 @@ class Home extends MX_Controller
 	{
 		$this->load->library('users/auth');
 		$this->set_current_user();
+
+        $profile_id = NULL;
+        if (!empty($this->current_user)){ 
+            if ($this->current_user->role_id == 4)
+            {
+                $profile_id = $this->company_users_model->get_profile_id($this->current_user->id);    
+                $profile_id = ($profile_id > 0 ? $profile_id : -1);
+                $this->session->set_userdata('profile_id',$profile_id);
+            }
+        }
 
         $pagerUriSegment = 5;
         $pagerBaseUrl = site_url(SITE_AREA . '/content/items/index') . '/';

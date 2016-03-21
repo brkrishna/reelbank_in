@@ -30,6 +30,16 @@ class Content extends Admin_Controller
 
         Assets::add_module_js('items', 'items.js');
 
+        $profile_id = NULL;
+        if (!empty($this->current_user)){ 
+            if ($this->current_user->role_id == 4)
+            {
+                $profile_id = $this->company_users_model->get_profile_id($this->current_user->id);    
+                $profile_id = ($profile_id > 0 ? $profile_id : -1);
+                $this->session->set_userdata('profile_id',$profile_id);
+            }
+        }
+        
         $bursting_strength_select = $this->bursting_strength_model->get_bursting_strength_select();
         Template::set('bursting_strength_select', $bursting_strength_select);
 
@@ -91,12 +101,20 @@ class Content extends Admin_Controller
 
         $this->pagination->initialize($pager);
         $this->items_model->limit($limit, $offset);
+
+        if(isset($current_user)) {
+            if ($current_user->role_id == 4){
+                $records = $this->items_model->find_all($this->session->userdata('profile_id'));        
+            }
+            else{
+               $records = $this->items_model->find_all();             
+            }   
+        } 
         
-        $records = $this->items_model->find_all();
 
         Template::set('records', $records);
         
-    Template::set('toolbar_title', lang('items_manage'));
+        Template::set('toolbar_title', lang('items_manage'));
 
         Template::render();
     }

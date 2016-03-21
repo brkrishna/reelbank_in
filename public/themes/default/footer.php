@@ -1,10 +1,8 @@
     <?php if ( ! isset($show) || $show == true) : ?>
     <hr />
-    <footer class="footer">
-        <div class="row">
-            <p>In case of any issues, please write to <a href="mailto:info@reelbank.in">info@reelbank.in</a>
-        </div>
-    </footer>
+    <div class="row-fluid">
+        <p>In case of any issues, please write to <a href="mailto:info@reelbank.in">info@reelbank.in</a>
+    </div>
     <?php endif; ?>
 	<div id="debug"><!-- Stores the Profiler Results --></div>
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->

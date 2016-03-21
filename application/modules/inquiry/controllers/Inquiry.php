@@ -3,11 +3,9 @@
 /**
  * Content controller
  */
-class Content extends Admin_Controller
+class Content extends Authenticated_Controller
 {
     protected $permissionCreate = 'Inquiry.Content.Create';
-    protected $permissionDelete = 'Inquiry.Content.Delete';
-    protected $permissionEdit   = 'Inquiry.Content.Edit';
     protected $permissionView   = 'Inquiry.Content.View';
 
     /**
@@ -30,8 +28,6 @@ class Content extends Admin_Controller
 
         Assets::add_module_js('inquiry', 'inquiry.js');
 
-        $this->load->model(array('bursting_strength/bursting_strength_model', 'gsm/gsm_model', 'specific_type/specific_type_model', 'condition/condition_model', 'profile/profile_model'));
-
         $profile_id = NULL;
         if (!empty($this->current_user)){ 
             if ($this->current_user->role_id == 4)
@@ -41,21 +37,6 @@ class Content extends Admin_Controller
                 $this->session->set_userdata('profile_id',$profile_id);
             }
         }
-
-        $bursting_strength_select = $this->bursting_strength_model->get_bursting_strength_select();
-        Template::set('bursting_strength_select', $bursting_strength_select);
-
-        $gsm_select = $this->gsm_model->get_gsm_select();
-        Template::set('gsm_select', $gsm_select);
-
-        $specific_type_select = $this->specific_type_model->get_specific_type_select();
-        Template::set('specific_type_select', $specific_type_select);
-        
-        $condition_select = $this->condition_model->get_condition_select();
-        Template::set('condition_select', $condition_select);
-
-        $profile_select = $this->profile_model->get_profile_select();
-        Template::set('profile_select', $profile_select);
 
     }
 
@@ -120,15 +101,7 @@ class Content extends Admin_Controller
      */
     public function create()
     {
-        $profile_id = NULL;
-        if (!empty($this->current_user)){ 
-            if ($this->current_user->role_id == 4)
-            {
-                $profile_id = $this->company_users_model->get_profile_id($this->current_user->id);    
-                $profile_id = ($profile_id > 0 ? $profile_id : -1);
-                $this->session->set_userdata('profile_id',$profile_id);
-            }
-        }
+
 
         $id = $this->uri->segment(5);
         if (empty($id)) {
@@ -138,6 +111,25 @@ class Content extends Admin_Controller
         }
         $this->auth->restrict($this->permissionCreate);
         
+        $this->load->model(array('bursting_strength/bursting_strength_model', 'gsm/gsm_model', 'specific_type/specific_type_model', 'condition/condition_model', 'profile/profile_model'));
+
+        $bursting_strength_select = $this->bursting_strength_model->get_bursting_strength_select();
+        var_dump($bursting_strength_select);
+        exit;
+        Template::set('bursting_strength_select', $bursting_strength_select);
+
+        $gsm_select = $this->gsm_model->get_gsm_select();
+        Template::set('gsm_select', $gsm_select);
+
+        $specific_type_select = $this->specific_type_model->get_specific_type_select();
+        Template::set('specific_type_select', $specific_type_select);
+        
+        $condition_select = $this->condition_model->get_condition_select();
+        Template::set('condition_select', $condition_select);
+
+        $profile_select = $this->profile_model->get_profile_select();
+        Template::set('profile_select', $profile_select);
+
         $item = $this->items_model->find($id);
         $user = $this->items_model->find($this->current_user->id);
         $buyer = $this->profile_model->find($profile_id);
@@ -160,8 +152,7 @@ class Content extends Admin_Controller
             }
         }
         */
-
-        if ($insert_id = $this->save_inquiry()) {
+        if ($insert_id = $this->save_inquiry('insert', $id)) {
             log_activity($this->auth->user_id(), lang('inquiry_act_create_record') . ': ' . $insert_id . ' : ' . $this->input->ip_address(), 'inquiry');
             Template::set_message(lang('inquiry_create_success'), 'success');
         }
@@ -172,71 +163,21 @@ class Content extends Admin_Controller
             'to'      => $this->input->post('email'),
             'subject' => lang('us_reset_pass_subject'),
             'message' => $this->load->view(
-                '_emails/inquiry', $item),
+                '_emails/forgot_password', $item),
                 true
             );
 
         if ($this->emailer->send($email)) {
             Template::set_message(lang('inquiry_sent_email_success'), 'success');
-        }
-        /*
         } else {
             Template::set_message(lang('inquiry_sent_email_failure') . $this->emailer->error, 'error');
         }
-        */
 
         Template::set('toolbar_title', lang('inquiry_action_create'));
         Template::set('item_id', $id);
         Template::set('profile_id', $this->session->userdata('profile_id'));
         Template::set('item', $item);
         Template::set_view('thankyou');
-        Template::render();
-    }
-    /**
-     * Allows editing of Inquiry data.
-     *
-     * @return void
-     */
-    public function edit()
-    {
-        $id = $this->uri->segment(5);
-        if (empty($id)) {
-            Template::set_message(lang('inquiry_invalid_id'), 'error');
-
-            redirect(SITE_AREA . '/content/inquiry');
-        }
-        
-        if (isset($_POST['save'])) {
-            $this->auth->restrict($this->permissionEdit);
-
-            if ($this->save_inquiry('update', $id)) {
-                log_activity($this->auth->user_id(), lang('inquiry_act_edit_record') . ': ' . $id . ' : ' . $this->input->ip_address(), 'inquiry');
-                Template::set_message(lang('inquiry_edit_success'), 'success');
-                redirect(SITE_AREA . '/content/inquiry');
-            }
-
-            // Not validation error
-            if ( ! empty($this->inquiry_model->error)) {
-                Template::set_message(lang('inquiry_edit_failure') . $this->inquiry_model->error, 'error');
-            }
-        }
-        
-        elseif (isset($_POST['delete'])) {
-            $this->auth->restrict($this->permissionDelete);
-
-            if ($this->inquiry_model->delete($id)) {
-                log_activity($this->auth->user_id(), lang('inquiry_act_delete_record') . ': ' . $id . ' : ' . $this->input->ip_address(), 'inquiry');
-                Template::set_message(lang('inquiry_delete_success'), 'success');
-
-                redirect(SITE_AREA . '/content/inquiry');
-            }
-
-            Template::set_message(lang('inquiry_delete_failure') . $this->inquiry_model->error, 'error');
-        }
-        
-        Template::set('inquiry', $this->inquiry_model->find($id));
-
-        Template::set('toolbar_title', lang('inquiry_edit_heading'));
         Template::render();
     }
 
@@ -272,11 +213,14 @@ class Content extends Admin_Controller
         // Make sure we only pass in the fields we want
         
         $data = $this->inquiry_model->prep_data($this->input->post());
+        //$data['item_id'] = $id;
+        //$data['profile_id'] = $this->session->userdata('profile_id');
 
         // Additional handling for default values should be added below,
         // or in the model's prep_data() method
         
-
+        var_dump($data);
+        exit;    
         $return = false;
         if ($type == 'insert') {
             $id = $this->inquiry_model->insert($data);

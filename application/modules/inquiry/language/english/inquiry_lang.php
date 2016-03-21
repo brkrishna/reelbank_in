@@ -25,6 +25,8 @@ $lang['inquiry_cancel']      = 'Cancel';
 $lang['inquiry_delete_record']   = 'Delete this Inquiry';
 $lang['inquiry_delete_confirm']  = 'Are you sure you want to delete this inquiry?';
 $lang['inquiry_edit_heading']    = 'Edit Inquiry';
+$lang['inquiry_sent_email_success']    = 'Notified Admin about your Enquiry, they will get in touch with you shortly';
+$lang['inquiry_sent_email_failure']    = 'Unable to send email, please try again later';
 
 // Create/Edit Buttons
 $lang['inquiry_action_edit']   = 'Save Inquiry';

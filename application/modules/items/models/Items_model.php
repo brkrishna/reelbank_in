@@ -113,4 +113,23 @@ class Items_model extends BF_Model
     {
         parent::__construct();
     }
+
+    public function find_all($profile_id = NULL)
+    {
+        if ($profile_id != NULL)
+        {
+            $query = $this->db->get_where($this->table_name, array('id'=>$profile_id));
+        }
+        else{
+            $query = $this->db->get($this->table_name);
+        }
+        
+		if (!$query->num_rows())
+		{
+			return FALSE;
+		}else{
+            return $query->result();
+        }
+    }
+    
 }
