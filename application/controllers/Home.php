@@ -107,8 +107,12 @@ class Home extends MX_Controller
 
         $this->pagination->initialize($pager);
         $this->items_model->limit($limit, $offset);
-        
-        $records = $this->items_model->find_all();
+
+        if($this->session->userdata('profile_id')) {
+            $records = $this->items_model->find_all($this->session->userdata('profile_id'), 1);        
+        }else{
+            $records = $this->items_model->find_by_qty(1);
+        } 
 
         Template::set('records', $records);
 

@@ -120,16 +120,6 @@ class Content extends Admin_Controller
      */
     public function create()
     {
-        $profile_id = NULL;
-        if (!empty($this->current_user)){ 
-            if ($this->current_user->role_id == 4)
-            {
-                $profile_id = $this->company_users_model->get_profile_id($this->current_user->id);    
-                $profile_id = ($profile_id > 0 ? $profile_id : -1);
-                $this->session->set_userdata('profile_id',$profile_id);
-            }
-        }
-
         $id = $this->uri->segment(5);
         if (empty($id)) {
             Template::set_message(lang('inquiry_invalid_id'), 'error');
@@ -139,11 +129,11 @@ class Content extends Admin_Controller
         $this->auth->restrict($this->permissionCreate);
         
         $item = $this->items_model->find($id);
-        $user = $this->items_model->find($this->current_user->id);
-        $buyer = $this->profile_model->find($profile_id);
+        $data['buyer'] = $this->profile_model->find($this->session->userdata('profile_id'));
         //var_dump($item);
         $seller_profile_id = $item->profile;
-        $seller = $this->profile_model->find($seller_profile_id);
+        $data['seller'] = $this->profile_model->find($seller_profile_id);
+        $data['item'] = $item;
 
         /*
         if (isset($_POST['save'])) {
@@ -172,7 +162,7 @@ class Content extends Admin_Controller
             'to'      => $this->input->post('email'),
             'subject' => lang('us_reset_pass_subject'),
             'message' => $this->load->view(
-                '_emails/inquiry', $item),
+                '_emails/inquiry', $data),
                 true
             );
 
@@ -188,7 +178,7 @@ class Content extends Admin_Controller
         Template::set('toolbar_title', lang('inquiry_action_create'));
         Template::set('item_id', $id);
         Template::set('profile_id', $this->session->userdata('profile_id'));
-        Template::set('item', $item);
+        Template::set('data', $data);
         Template::set_view('thankyou');
         Template::render();
     }

@@ -11,7 +11,8 @@ if ($can_delete) {
 ?>
 <div class='admin-box'>
 	<h3>
-		<?php echo lang('items_area_title'); ?>
+		<?php echo 'My ' . lang('items_area_title'); ?>
+		<?php echo anchor(SITE_AREA . '/content/items/create', 'Add', array('class'=>'pull-right')); ?>
 	</h3>
 	<?php echo form_open($this->uri->uri_string()); ?>
 		<table class='table table-striped'>
@@ -20,8 +21,9 @@ if ($can_delete) {
 					<?php if ($can_delete && $has_records) : ?>
 					<th class='column-check'><input class='check-all' type='checkbox' /></th>
 					<?php endif;?>
-					
-					<th><?php echo lang('items_field_profile'); ?></th>
+					<?php if(isset($current_user) && $current_user->role_id != 4) : ?>
+						<th><?php echo lang('items_field_profile'); ?></th>		
+					<?php endif; ?>			
 					<th><?php echo lang('items_field_strength'); ?></th>
 					<th><?php echo lang('items_field_gsm'); ?></th>
 					<th><?php echo lang('items_field_decal'); ?></th>
@@ -30,11 +32,11 @@ if ($can_delete) {
 					<th><?php echo lang('items_field_mill_name'); ?></th>
 					<th><?php echo lang('items_field_condition'); ?></th>
 					<th><?php echo lang('items_field_qty'); ?></th>
-					<th><?php echo lang('items_field_orig_qty'); ?></th>
 					<th><?php echo lang('items_field_remarks'); ?></th>
-					<th><?php echo lang('items_column_deleted'); ?></th>
-					<th><?php echo lang('items_column_created'); ?></th>
-					<th><?php echo lang('items_column_modified'); ?></th>
+					<?php if(isset($current_user) && $current_user->role_id != 4) : ?>
+						<th><?php echo lang('items_column_deleted'); ?></th>
+						<th><?php echo lang('items_column_created'); ?></th>
+					<?php endif; ?>			
 				</tr>
 			</thead>
 			<?php if ($has_records) : ?>
@@ -72,11 +74,12 @@ if ($can_delete) {
 					<td><?php e($record->mill_name); ?></td>
 					<td><?php e($condition_select[$record->condition]); ?></td>
 					<td><?php e($record->qty); ?></td>
-					<td><?php e($record->orig_qty); ?></td>
 					<td><?php e($record->remarks); ?></td>
-					<td><?php echo $record->deleted > 0 ? lang('items_true') : lang('items_false'); ?></td>
-					<td><?php e($record->created_on); ?></td>
-					<td><?php e($record->modified_on); ?></td>
+					<?php if(isset($current_user) && $current_user->role_id != 4) : ?>
+						<td><?php echo $record->deleted > 0 ? lang('items_true') : lang('items_false'); ?></td>
+						<td><?php e($record->created_on); ?></td>
+					<?php endif; ?>			
+
 				</tr>
 				<?php
 					endforeach;

@@ -1,4 +1,16 @@
 <div class="row-fluid">
+	<p> Dear <?php e($current_user->display_name . ','); ?>
+	<br/><br/>
+	You have enquired on behalf of 
+	<br/><br/>
+	<?php e('Company - ' . $buyer->name); ?>
+	<br/>
+	<?php e('Contact Name - ' . $buyer->contact); ?>
+	<br/>
+	<?php e('Contact Phone - ' . $buyer->phone); ?>
+	<br/>
+	<?php e('Contact Email - ' . $buyer->email); ?>
+	<br/>
 	<p>You have shown interest in the following item</p>
 	<div>
 		<table class="table table-bordered table-condensed" style="width:50%">
@@ -10,5 +22,16 @@
 		</table>
 	</div>
 	<p>The reelbank team has been notified of this request and you will hear from them shortly</p>
-	<p><?php echo anchor(base_url(), 'Back to Items list'); ?></p>
+	
+	Seller details: 
+	<br/><br/>
+	<?php e('Company - ' . $seller->name); ?>
+	<br/>
+	<?php e('Contact Name - ' . $seller->contact); ?>
+	<br/>
+	<?php e('Contact Phone - ' . $seller->phone); ?>
+	<br/>
+	<?php e('Contact Email - ' . $seller->email); ?>
+	<br/><br/><br/>
+	
 </div>

@@ -23,7 +23,7 @@ class Content extends Admin_Controller
         $this->load->model('profile/profile_model');
         $this->lang->load('profile');
         
-            $this->form_validation->set_error_delimiters("<div class='alert alert-danger'>", "</div>");
+        $this->form_validation->set_error_delimiters("<div class='alert alert-danger'>", "</div>");
         
         Template::set_block('sub_nav', 'content/_sub_nav');
 
@@ -75,7 +75,16 @@ class Content extends Admin_Controller
         $this->pagination->initialize($pager);
         $this->profile_model->limit($limit, $offset);
         
-        $records = $this->profile_model->find_all();
+        if(isset($current_user)) {
+            if ($current_user->role_id == 4){
+                $records = $this->profile_model->find_all($this->session->userdata('profile_id'));        
+            }
+            else{
+               $records = $this->profile_model->find_all();             
+            }   
+        }else{
+            $records = $this->profile_model->find_all();
+        } 
 
         Template::set('records', $records);
         

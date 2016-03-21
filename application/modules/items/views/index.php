@@ -12,6 +12,7 @@ if ($can_delete) {
 <div class='admin-box'>
 	<h3>
 		<?php echo lang('items_area_title'); ?>
+		<?php echo anchor(SITE_AREA . '/content/items', 'Sell', array('class'=>'pull-right')); ?>
 	</h3>
 		<table class='table table-striped'>
 			<thead>
@@ -52,11 +53,11 @@ if ($can_delete) {
 					<td class='column-check'><input type='checkbox' name='checked[]' value='<?php echo $record->id; ?>' /></td>
 					<?php endif;?>
 					
-				<?php if ($can_edit) : ?>
+				<!--<?php if ($can_edit) : ?>
 					<td><?php echo anchor(SITE_AREA . '/content/items/edit/' . $record->id, '<span class="icon-pencil"></span> ' .  $bursting_strength_select[$record->strength]); ?></td>
-				<?php else : ?>
+				<?php else : ?>-->
 					<td><?php e($bursting_strength_select[$record->strength]); ?></td>
-				<?php endif; ?>
+				<!--<?php endif; ?>-->
 					<td><?php e($gsm_select[$record->gsm]); ?></td>
 					<td><?php e($record->decal); ?></td>
 					<td><?php e($record->weight); ?></td>

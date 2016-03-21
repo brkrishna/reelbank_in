@@ -63,32 +63,32 @@ class Items_model extends BF_Model
 		array(
 			'field' => 'decal',
 			'label' => 'lang:items_field_decal',
-			'rules' => 'trim|is_natural_no_zero|max_length[10]',
+			'rules' => 'required|trim|is_natural_no_zero|max_length[10]',
 		),
 		array(
 			'field' => 'weight',
 			'label' => 'lang:items_field_weight',
-			'rules' => 'trim|is_natural_no_zero|max_length[255]',
+			'rules' => 'required|trim|is_natural_no_zero|max_length[255]',
 		),
 		array(
 			'field' => 'type',
 			'label' => 'lang:items_field_type',
-			'rules' => 'trim|alpha_numeric|max_length[255]',
+			'rules' => 'required|trim|alpha_numeric|max_length[255]',
 		),
 		array(
 			'field' => 'mill_name',
 			'label' => 'lang:items_field_mill_name',
-			'rules' => 'trim|max_length[255]',
+			'rules' => 'required|trim|max_length[255]',
 		),
 		array(
 			'field' => 'condition',
 			'label' => 'lang:items_field_condition',
-			'rules' => 'trim|alpha_numeric|max_length[255]',
+			'rules' => 'required|trim|alpha_numeric|max_length[255]',
 		),
 		array(
 			'field' => 'qty',
 			'label' => 'lang:items_field_qty',
-			'rules' => 'numeric|max_length[16]',
+			'rules' => 'required|numeric|max_length[16]',
 		),
 		array(
 			'field' => 'orig_qty',
@@ -114,11 +114,23 @@ class Items_model extends BF_Model
         parent::__construct();
     }
 
-    public function find_all($profile_id = NULL)
+    public function find_by_qty($qty = 0)
+    {
+        $query = $this->db->get_where($this->table_name, array('qty > '=> $qty));
+        
+		if (!$query->num_rows())
+		{
+			return FALSE;
+		}else{
+            return $query->result();
+        }
+    }
+
+    public function find_all($profile_id = NULL, $qty = 0)
     {
         if ($profile_id != NULL)
         {
-            $query = $this->db->get_where($this->table_name, array('id'=>$profile_id));
+            $query = $this->db->get_where($this->table_name, array('profile != '=>$profile_id, 'qty > '=>$qty));
         }
         else{
             $query = $this->db->get($this->table_name);
@@ -132,4 +144,21 @@ class Items_model extends BF_Model
         }
     }
     
+    public function find_my_items($profile_id = NULL)
+    {
+        if ($profile_id != NULL)
+        {
+            $query = $this->db->get_where($this->table_name, array('profile'=>$profile_id));
+        }
+        else{
+            $query = $this->db->get($this->table_name);
+        }
+        
+		if (!$query->num_rows())
+		{
+			return FALSE;
+		}else{
+            return $query->result();
+        }
+    }
 }
