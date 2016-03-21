@@ -28,7 +28,8 @@ if ($can_delete) {
 					<th><?php echo lang('items_field_type'); ?></th>
 					<th><?php echo lang('items_field_condition'); ?></th>
 					<th><?php echo lang('items_field_qty'); ?></th>
-					<th>&nbsp;</th>
+					<th>Details</th>
+					<th>Buy</th>
 				</tr>
 			</thead>
 			<?php if ($has_records) : ?>
@@ -56,14 +57,16 @@ if ($can_delete) {
 				<!--<?php if ($can_edit) : ?>
 					<td><?php echo anchor(SITE_AREA . '/content/items/edit/' . $record->id, '<span class="icon-pencil"></span> ' .  $bursting_strength_select[$record->strength]); ?></td>
 				<?php else : ?>-->
-					<td><?php e($bursting_strength_select[$record->strength]); ?></td>
+					
 				<!--<?php endif; ?>-->
+					<td><?php e($bursting_strength_select[$record->strength]); ?></td>
 					<td><?php e($gsm_select[$record->gsm]); ?></td>
 					<td><?php e($record->decal); ?></td>
 					<td><?php e($record->weight); ?></td>
 					<td><?php e($specific_type_select[$record->type]); ?></td>
 					<td><?php e($condition_select[$record->condition]); ?></td>
 					<td><?php e($record->qty); ?></td>
+					<td><?php echo anchor(SITE_AREA . '/content/items/detail/' . $record->id, 'Details'); ?></td>
 					<td><?php echo anchor(SITE_AREA . '/content/inquiry/create/' . $record->id, 'Buy'); ?></td>
 				</tr>
 				<?php

@@ -75,13 +75,8 @@ class Content extends Admin_Controller
         $this->pagination->initialize($pager);
         $this->profile_model->limit($limit, $offset);
         
-        if(isset($current_user)) {
-            if ($current_user->role_id == 4){
-                $records = $this->profile_model->find_all($this->session->userdata('profile_id'));        
-            }
-            else{
-               $records = $this->profile_model->find_all();             
-            }   
+        if($this->session->userdata('profile_id')) {
+            $records = $this->profile_model->find_all($this->session->userdata('profile_id'));        
         }else{
             $records = $this->profile_model->find_all();
         } 

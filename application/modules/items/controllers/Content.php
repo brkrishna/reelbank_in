@@ -186,6 +186,20 @@ class Content extends Admin_Controller
         Template::render();
     }
 
+    public function detail()
+    {
+        $id = $this->uri->segment(5);
+        if (empty($id)) {
+            Template::set_message(lang('items_invalid_id'), 'error');
+
+            redirect(SITE_AREA . '/content/items');
+        }
+        
+        Template::set('items', $this->items_model->find($id));
+
+        Template::set('toolbar_title', 'Details');
+        Template::render();
+    }
     //--------------------------------------------------------------------------
     // !PRIVATE METHODS
     //--------------------------------------------------------------------------
